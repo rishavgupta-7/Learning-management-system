@@ -1,0 +1,107 @@
+<!-- progress.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body>
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="flex justify-end gap-1">
+        <a href="/signout"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+        <a href="/studenthome"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+            to Home</a>
+    </div>
+    <div class="bg-blue-200 w-full p-8 rounded shadow-xl">
+        <h1 class="text-2xl font-bold mb-4">
+            <%= coursename %> Course Completion Status
+        </h1>
+
+        <div class="mb-4">
+            <p class="font-semibold">Total Pages:</p>
+            <p>
+                <%= pagesCount %>
+            </p>
+        </div>
+
+        <div class="mb-4">
+            <p class="font-semibold">Completed Pages:</p>
+            <p>
+                <%= completedPagesCount %>
+            </p>
+        </div>
+
+        <div>
+            <p class="font-semibold">Completion Percentage:</p>
+            <p>
+                <%= completionPercentage.toFixed(2) %>%
+            </p>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-bold mb-4">Course Timeline</h2>
+            <div class="flex space-x-4">
+                <% for (let i=1; i <=pagesCount; i++) { %>
+                    <div class="flex-shrink-0 w-8 h-8 border-2 border-gray-500 rounded-full text-center">
+                        <% if (i <=completedPagesCount) { %>
+                            <div class="w-full h-full bg-green-500 rounded-full"></div>
+                            <% } else { %>
+                                <div class="w-full h-full border-2 border-gray-500 rounded-full"></div>
+                                <% } %>
+                                    <p class="text-xs">
+                                        <%= i %>
+                                    </p>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <a href="/chapter-view?courseId=<%= courseId %>"
+                class="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded">
+                View Course
+            </a>
+        </div>
+    </div>
+    <footer>
+        <%- include('footer.ejs') %>
+    </footer>
+</body>
+
+</html>

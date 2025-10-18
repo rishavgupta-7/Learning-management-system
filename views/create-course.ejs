@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>Course create</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/circuits-blue-red-gradient-digital-background_23-2148821701.jpg?w=996&t=st=1706379807~exp=1706380407~hmac=727e617fffb1b48cad7f8b16a221cc4b4b541000098c1c2574b60ffe536b1a65');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+
+    </header>
+
+    <p class="py-9">----</p>
+    
+     <div>
+        <form class=" flex flex-col items-center mt-8 border-2-blue-500-rounded " action=" /create-course"
+            method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div>
+                <label for="title" class="block text-blue-700 text-sm font-bold mb-2">Enter Course Title</label>
+                <input class="w-96 p-2 mb-4 border border-blue-600 rounded focus:border-red-500 w" type="text"
+                    name="title" placeholder="Enter Course Title" required>
+            </div>
+            <div>
+                <label for="description" class="block text-blue-700 text-sm font-bold mb-2 ">Enter Course
+                    Details</label>
+                <input class="w-96 p-2 mb-4 border border-blue-600 rounded focus:border-red-500" type="text"
+                    name="description" placeholder="Enter Course Details" required>
+            </div>
+            <div class="flex justify-between items-center">
+                <button class="bg-blue-500 hover:bg-green-900 text-white font-bold py-2 px-9 rounded"
+                    type="submit">Create Course</button>
+            </div>
+            <br>
+            <hr><br>
+            <div class="text-center">
+                <% if(messages && messages.success && messages.success.length> 0) { %>
+                    <% for(var i=0; i<messages.success.length; i++) { %>
+                        <p class="rounded-full border-2 p-2 bg-gray-600 text-center text-white">
+                            <%= messages.success[i] %>
+                        </p>
+                        <% } %>
+                            <% } %>
+                                <% if(messages && messages.error && messages.error.length> 0) { %>
+                                    <% for(var i=0; i<messages.error.length; i++) { %>
+                                        <p class="rounded-full border-2 p-2 bg-red-600 text-center text-white">
+                                            <%= messages.error[i] %>
+                                        </p>
+                                        <% } %>
+                                            <% } %>
+
+            </div>
+            </form>
+    </div>
+    <div>
+
+        <div class="flex justify-center items-center">
+            <a href="/signout"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+            <a href="/adminhome"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4"">Back to Home</a>
+                </div>
+
+        <footer>
+            <%- include ('footer.ejs') %>
+        </footer>
+    </div>
+</body>
+
+</html>

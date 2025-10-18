@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>
+        <%= title %>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-md w-96">
+            <h2 class="text-2xl font-semibold mb-4">Login</h2>
+            <form action="/session" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="mb-4">
+                    <label for="email" class="text-gray-600">Email</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="text-gray-600">Password</label>
+                    <input type="password" id="password" name="password" class="w-full p-2 border rounded-md">
+                </div>
+                <div class="mb-4">
+                    <label for="role" class="text-gray-600">Role</label>
+                    <select id="role" name="role" class="w-full p-2 border rounded-md">
+                        <option value="educator">Educator</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <button type="submit"
+                    class="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600">Login</button>
+                <p class="text-gray-600 mt-4">Don't have an account? <a href="/signup" class="text-blue-600">Sign up</a>
+                </p>
+                <br>
+                <hr><br>
+                <div class="text-center">
+                    <% if(messages && messages.error && messages.error.length> 0) { %>
+                        <% for(var i=0; i<messages.error.length; i++) { %>
+                            <p class="rounded-full border-2 p-2 bg-gray-600 text-center text-white">
+                                <%= messages.error[i] %>
+                            </p>
+                            <% } %>
+                                <% } %>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <%- include ('footer.ejs') %>
+    </footer>
+</body>
+
+</html>

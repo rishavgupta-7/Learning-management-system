@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chapters</title>
+    <meta name="csrf-token" content="<%= csrfToken%>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body>
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/circuits-blue-red-gradient-digital-background_23-2148821701.jpg?w=996&t=st=1706379807~exp=1706380407~hmac=727e617fffb1b48cad7f8b16a221cc4b4b541000098c1c2574b60ffe536b1a65');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="flex justify gap-1">
+        <% if (role==='educator' ) { %>
+            <a href="/adminhome"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                to Home</a>
+            <% } else { %>
+
+                <a href="/progress/<%= course.id %>"
+                    class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Track
+                    Progress</a>
+                <a href="/studenthome"
+                    class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                    to Home</a>
+                <% } %>
+                    <a href="/signout"
+                        class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+
+    </div>
+
+    <div class="container mx-auto mt-8">
+        <div class="flex">
+            <div class="w-1/4">
+                <div class="mb-10 rounded-lg border border-gray-300 bg-white p-4">
+                    <h2 class="mb-2 text-lg font-bold">
+                        Course: <%= courseTitle %>
+                    </h2>
+                    <p class="text-gray-600  text-lg font-bold">Educator: <%= educator %>
+                    </p>
+                    <p class="text-gray-600  text-lg font-bold">Description: <%= description %>
+                    </p>
+                    <p class="text-gray-600  text-lg font-bold">You can access the full course</p>
+                    <!-- <button onclick="enrollButtonClicked()" class="mt-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">Enroll</button> -->
+                </div>
+                <input type="hidden" value="<%= courseId %>">
+            </div>
+            <div class="w-3/4">
+                <h1 class="mb-4 text-center text-3xl italic font-bold text-blue-500">Chapters Covered in <%= courseTitle %>
+                </h1>
+                <div class="mx-11 gap-1">
+                    <% if (chapters.length> 0) { %>
+                        <% chapters.forEach(function(chapter) { %>
+                            <a href="/pagelist?chapterId=<%= chapter.id %>&courseId=<%= courseId %>">
+
+                                <div
+                                    class="hover:bg-gray-500 transition ease-in-out cursor-pointer relative mb-4 rounded-lg border border-gray-300 bg-white p-4">
+
+                                    <h2 class="mb-2 mx-25 text-lg font-bold">
+                                        <%= chapter.title %>
+                                    </h2>
+                                    <div class="absolute bottom-6 right-7 mt-1 text-right">
+                                    </div>
+                            </a>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p class=" col-span-2 mx-100 text-lg text-Blue-400 ">No Chapters available.</p>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+    </div>
+    <footer>
+        <%- include("footer.ejs") %>
+    </footer>
+</body>
+
+</html>

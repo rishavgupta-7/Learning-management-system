@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>
+        <%= title %>
+    </title>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<header>
+    <%- include("header.ejs") %>
+</header>
+
+<body class="bg-gray-100">
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1900px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+    
+    <div class="container mx-auto mt-8">
+        <h1 class="text-center py-4 text-4xl font-bold ">Welcome 
+        </h1>
+        <div class="text-center " >
+                <% if(messages && messages.success && messages.success.length > 0)  { %>
+                    <% for(var i=0; i<messages.success.length; i++) { %>
+                        <p class="rounded w-96 bg-gray-600 text-center text-white"> <%= messages.success[i] %></p>
+                    <% } %>
+                  <% } %>
+                  
+                <% if(messages && messages.error && messages.error.length > 0)  { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class=" rounded w-96 bg-gray-600 text-center text-white"> <%= messages.error[i] %></p>
+                    <% } %>
+                  <% } %>
+            </div>
+        <h3 class="text-2xl text-blue-300 font-bold">::Menu::</h3>
+        <div
+            class="w-96 bg-gradient-to-r from-green-500 to-red-500 p-2 mt-4 rounded-lg text-center text-white hover:from-blue-900 hover:to-red-700 transition duration-300">
+            <a href="/changepass" class="text-lg font-semibold">Change Password</a>
+        </div>
+        <div
+            class="w-96 bg-gradient-to-r from-blue-500 to-green-200 p-2 mt-4 rounded-lg text-center text-white hover:from-blue-900 hover:to-red-700 transition duration-300">
+            <a href="/displayc" class="text-lg font-semibold">Track Course Progress</a>
+        </div>
+
+        <div class="flex justify">
+            <a href="/signout"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+        </div>
+
+        <div>
+            <br>
+            <hr class="border-2 border-blue-400 w-full">
+            <br>
+            <h1 class="text-3xl mb-4 font-bold text-center">Your Enrolled Courses</h1>
+            <br>
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+                <% currentUserCourses.forEach(function(course) { %>
+                    <% enrolledCourses.forEach(function(enrolledCourse) { %>
+                        <% if (enrolledCourse.userId===currentUser && enrolledCourse.courseId===course.id) { %>
+                            <div
+                                class="bg-gray-200 p-4 rounded shadow-lg hover:shadow-lg transition duration-300 ease-in-out mb-4 cursor-pointer">
+                                <h2 class="text-lg font-bold mb-2">Course: <%= course.title %>
+                                </h2>
+                                <p class="text-gray-700">Educator: <%= course.educator %>
+                                </p>
+                                <p class="text-gray-700">
+                                    <%= course.description %>
+                                </p>
+                                <div class="flex justify-between mt-4">
+                                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                        onclick="viewCourseChapters('<%= course.id %>')">View Course</button>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }); %>
+                                    <% }); %>
+            </div>
+        </div>
+        <br>
+        <%- include("display.ejs", { courses: allcourses, chapters: chapters, pages: pages }) %>
+    </div>
+    <footer>
+        <%- include('footer.ejs') %>
+    </footer>
+    <script>window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };</script>
+</body>
+
+</html>

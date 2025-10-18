@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>
+        <%= title %>
+    </title>
+    <style>
+        body {
+          text-align: center;
+        }
+      </style>
+    
+</head>
+
+<body>
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="content">
+    <div class="grid-cols-3 mt-10">
+        <div class="col-start-2 col-span-2">
+            <p class="py-4  text-center text-4xl text-blue-500 mb-5 font-semibold mt-1 underline underline-offset-8">Welcome to the Learning
+              World</p>
+                <p class="py-16">        </p>
+            <p class="py-2 text-center text-2xl italic font-semibold">New to LMS? <a href="/signup" class="text-blue-600">Sign-up now</a></p>
+            <p class="py-2 text-center text-2xl italic font-semibold">Already have an account in LMS? <a href="/login"
+                    class="text-blue-600">Sign-in</a></p>
+        </div>
+    </div>
+    <footer>
+        <%- include ('footer.ejs') %>
+    </footer>
+</div>
+</body>
+
+</html>

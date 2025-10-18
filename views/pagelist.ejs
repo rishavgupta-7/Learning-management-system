@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        button:hover {
+            background-color: #a58142;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1900px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="flex justify gap-1">
+        <a href="/chapter-view?courseId=<%= courseId %>&userId=<%= userId %>&chapterId=<%= chapterId %>"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Chapter
+            list </a>
+        <% if (role==='educator' ) { %>
+            <a href="/adminhome"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                to Home</a>
+            <% } else { %>
+
+                <a href="/progress/<%= courseId %>"
+                    class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Track
+                    Progress</a>
+                <a href="/studenthome"
+                    class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                    to Home</a>
+                <% } %>
+                    <a href="/signout"
+                        class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+
+    </div>
+    <div class="mx-20 my-10 gap-1">
+
+        <div id="page-container">
+            <h1 class="mb-4 text-center text-3xl font-bold text-gray-800">Pages in <%= chapter.title %>
+            </h1>
+            <% if (pages.length> 0) { %>
+                <% pages.forEach(function(page, index) { %>
+                    <div>
+                        <a
+                            href="/adminpages?chapterId=<%= chapter.id %>&pageId=<%= page.id %>&courseId=<%= courseId %>">
+                            <% const isPageRegistered=registeredPages.includes(page.id); %>
+                                <div
+                                    class="<%= isPageRegistered ? 'bg-green-200' : 'bg-white' %> hover:bg-blue-200 transition ease-in-out cursor-pointer relative mb-4 rounded-lg border border-gray-500 p-4">
+                                    <h2 class="mb-2 mx-25 text-lg font-bold">Page <%= index + 1 %>: <%= page.title %>
+                                                <%= isPageRegistered ? '- Completed' : '' %>
+                                    </h2>
+                                    <% if (!isPageRegistered) { %>
+
+                        </a>
+                        <% } %>
+                    </div>
+        </div>
+        <% }); %>
+            <% } else { %>
+                <p class="col-span-2 mx-100 text-lg text-gray-600">No Pages available.</p>
+                <% } %>
+    </div>
+    </div>
+    <footer>
+        <%- include('footer.ejs') %>
+    </footer>
+
+</body>
+
+</html>

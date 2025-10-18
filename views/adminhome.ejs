@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>
+        <%= title%>
+    </title>
+    <meta name="csrf-token" content="<%= csrfToken%>">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.9/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/circuits-blue-red-gradient-digital-background_23-2148821701.jpg?w=996&t=st=1706379807~exp=1706380407~hmac=727e617fffb1b48cad7f8b16a221cc4b4b541000098c1c2574b60ffe536b1a65');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+
+        <%- include("header.ejs") %>
+    </header>
+    
+        <main>
+
+            <h1 class="text-center py-4 text-3xl font-bold ">Welcome Sir <%= educator %>
+            </h1>
+
+           
+            <div class="mx-4 mt-8 rounded  ">
+                <h2 class=" mx-28 text-3xl font-semibold text-center  p-2 text-red-600  ">Menu</h2>
+            </div>
+            <div class="mx-50 text-2xl font-semibold flex justify-center items-center">
+                <br>
+                <div
+                    class=" w-96 bg-clip-border p-1 bg-yellow-600 border-2 border-blue-300 text-center">
+                    <a href="/create-course" class="text-lg font-semibold">Create New Course</a>
+                </div>
+            </div>
+            <div class="mx-50 text-2xl font-semibold flex justify-center items-center"> 
+                <div
+                    class="text-center w-96 bg-clip-border p-1 bg-yellow-600 border-2 border-blue-300">
+                    <a href="/admincourses" class="text-lg font-semibold">My Courses</a>
+                </div>
+            </div>
+            <div class="mx-50 text-2xl font-semibold flex justify-center items-center">  
+                <div
+                    class="w-96 bg-clip-border p-1 bg-yellow-600 border-2 border-blue-300 text-center">
+                    <a href="/report" class="text-lg font-semibold">Report</a>
+                </div>
+            </div>
+            <div class="mx-50 text-2xl font-semibold flex justify-center items-center"> 
+                <div
+                    class="w-96 bg-clip-border p-1 bg-yellow-600 border-2 border-blue-300 text-center">
+                    <a href="/changepass" class="text-lg font-semibold">Change Password</a>
+                </div>
+            </div>
+            
+    
+
+    <div class="flex justify-center items-center">
+        <a href="/signout"
+            class="text-lg mt-4 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-4rounded mt-1 mb-1">signout</a>
+    </div>
+    <div>
+
+    <div class="mx-auto mt-8">
+        <%- include("display.ejs", { courses: courses, chapters: chapters, pages: pages }) %>
+
+    </div>
+    </main>
+    </div>
+
+    <footer>
+        <%- include("footer.ejs") %>
+    </footer>
+</body>
+
+</html>

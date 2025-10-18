@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <title>Educator Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body class="font-sans bg-gray-100">
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/circuits-blue-red-gradient-digital-background_23-2148821701.jpg?w=996&t=st=1706379807~exp=1706380407~hmac=727e617fffb1b48cad7f8b16a221cc4b4b541000098c1c2574b60ffe536b1a65');
+          background-size: 1500px 1300px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="flex justify ">
+        <a href="/signout"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Signout</a>
+        <a href="/adminhome"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+            to Home</a>
+    </div>
+    <h1 class="text-2xl font-bold mb-4 text-center mt-10">Your Course Module Report</h1>
+
+    <% if (educatorCourses.length> 0) { %>
+        <div
+            class="container mx-auto my-10 p-8 bg-white shadow-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <% educatorCourses.forEach((course)=> { %>
+                <div class="bg-blue-200 p-4 rounded">
+                    <h2 class="text-lg font-semibold text-blue-700">
+                        Course Name: <%= course.course.title %>
+                    </h2>
+                    <p class="font-bold text-black-700">Course Educator: <%= course.course.educator %>
+                    </p>
+                    <p class="font-bold text-black-700">
+                        <%= course.enrollmentCount %> users enrolled
+                    </p>
+                    <p class="font-bold text-black-700">Course Created: <%= course.course.createdAt %>
+                    </p>
+                    <p class="font-bold text-black-700">Popularity: <%= course.popularityScore.toFixed(2) %>%</p>
+                    <div class="mt-4">
+                        <input type="hidden" name="courseId" value="<%= course.course.id %>">
+                        <a href="/chapter-view?courseId=<%= course.course.id %>"
+                            class="text-white bg-blue-500 hover:bg-blue-700 py-2 px-4 rounded">
+                            View Course
+                        </a>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+        <% } else { %>
+            <p class="text-center text-xl font-semibold mt-8">No courses available for the educator.</p>
+            <% } %>
+
+                <footer>
+                    <%- include("footer.ejs") %>
+                </footer>
+</body>
+
+</html>

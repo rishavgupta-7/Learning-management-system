@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        button:hover {
+            background-color: #a58142;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <style>
+        body {
+          background-image: url('https://img.freepik.com/free-vector/copy-space-blue-circuits-digital-background_23-2148821699.jpg?w=996&t=st=1706376806~exp=1706377406~hmac=6b9bd5e96558a99cab58ea00443cf50357e98170f62a1bb4ead03cd7c1d97dd8');
+          background-size: 1500px 1900px; /* Adjust the background size as needed */
+          background-position: center; /* Adjust the background position as needed */
+          background-repeat: no-repeat; /* Prevent the background from repeating */
+          /* Optionally, you can add additional styles for the body */
+          /* For example, setting margin and padding to 0 to remove default spacing */
+          margin: 0;
+          padding: 0;
+          
+        }
+        /* Add other styles for your content as needed */
+        .content {
+          /* Your content styles go here */
+          text-align: center;
+          padding: 50px;
+          justify-content: center;
+          height: 100vh;
+          
+        }
+      </style>
+
+    <header>
+        <%- include("header.ejs") %>
+    </header>
+    <div class="flex justify gap-1">
+        <a href="/signout"
+            class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">signout</a>
+        <% if (role==='educator' ) { %>
+            <a href="/adminhome"
+                class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                to Home</a>
+            <% } else { %>
+                <a href="/studenthome"
+                    class="text-lg mt-25 font-semibold bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-24 rounded mt-4 mb-4">Back
+                    to Home</a>
+                <% } %>
+    </div>
+    <div class="mx-20 my-10 gap-1">
+        <div id="page-container">
+            <% if (page !==null) { %>
+                <div class="page">
+                    <div
+                    class="<%= registeredPage ? 'bg-green-200' : 'bg-white' %> hover:bg-blue-100 transition ease-in-out cursor-pointer relative mb-4 rounded-lg border border-gray-500 p-4">
+                    <h2 class="mb-2 mx-25 text-lg text-center font-bold">Page: <%= page.title %>
+                        </h2>
+                        <p class="col-span-2 mx-100 text-lg text-gray-600"> contents: <br>
+                            <%= page.content.trim() %>
+                        </p>
+                        
+                    </div>
+                    <% if (role==='educator' ) { %>
+                        <a class="rounded-lg border text-center border-gray-300 bg-white p-3"
+                            href="/pagelist?chapterId=<%= chapter.id %>&courseId=<%= courseId %>">Back</a>
+                        <% } %>
+                            <% if (role !=='educator' ) { %>
+                                <form id="markAsCompletedForm" action="/markascompleted" method="POST">
+                                    <input type="hidden" name="chapterId" value="<%= chapterId %>">
+                                    <input type="hidden" name="courseId" value="<%= courseId %>">
+                                    <input type="hidden" name="userId" value="<%= userId %>">
+                                    <input type="hidden" name="pageId" value="<%= page.id %>">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <% if (registeredPage) { %>
+                                        <button
+                                            class="rounded-lg border text-center border-gray-300 bg-white p-3">Completed</button>
+                                            <p class="col-span-2 mx-100 text-lg text-gray-600">You have completed this page (press completed to go back)</p>
+                                        <% } else { %>
+                                            <button class="rounded-lg border text-center border-gray-300 bg-white p-3"
+                                                id="markascompleted-button"
+                                                onclick="markAsCompleted('<%= chapterId %>', '<%= courseId %>', '<%= userId %>', '<%= page.id %>')"
+                                                data-page-complete="<%= page.completed ? 'true' : 'false' %>">
+                                                Mark as Completed
+                                            </button>
+                                            <% } %>
+                                </form>
+                                <% } %>
+                </div>
+                <% } else { %>
+                    <p class="col-span-2 mx-100 text-lg text-gray-600">No Pages available.</p>
+                    <% } %>
+        </div>
+    </div>
+    <footer>
+        <%- include('footer.ejs') %>
+    </footer>
+    <script>
+        const pages = document.querySelectorAll(".page");
+
+        function markAsCompleted(chapterId, courseId, userId, pageId) {
+            const markAsCompletedButton = document.getElementById("markascompleted-button");
+
+            document.querySelector('input[name="pageId"]').value = pageId;
+
+            if (markAsCompletedButton.disabled) {
+                alert("Page is already completed");
+                return;
+            }
+
+            if (isPageRegistered(userId, pageId)) {
+                alert("You are already registered for this page");
+                return;
+            }
+
+            fetch(`/markascompleted`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': '<%= csrfToken %>',
+                },
+                body: JSON.stringify({ chapterId, courseId, userId, pageId }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to mark page as completed');
+                    }
+
+                    markAsCompletedButton.innerHTML = 'Completed';
+                    markAsCompletedButton.disabled = true;
+                    alert("Page marked as completed successfully");
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Already page marked as completed");
+                });
+        }
+    </script>
+
+
+
+</body>
+
+</html>
